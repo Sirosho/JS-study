@@ -40,16 +40,23 @@ let userInfo = {
 let inputId;
 let inputPassword;
 let accountIndex;
-let idx=[];
-for(let n of userInfo.userList){
+let inputUsername;
+let count = 0;
 
-    idx.push(n.account);
-}
+let idx=[];
+
 
 
 
 
 while(true){
+    if(count>0) {
+        for (let n of userInfo.userList) {
+
+            idx.push(n.account);
+        }
+        count=0;
+    }
     inputId = prompt(`아이디를 입력해주세요`);
     if( idx.includes(inputId) ){
         accountIndex = idx.indexOf(inputId);
@@ -63,8 +70,25 @@ while(true){
             }
         }
     }else{
-        alert('존재하지 않는 아이디입니다.');
-        continue;
+        let agree = prompt('존재하지 않는 아이디입니다. 회원가입하시려면 예 를 입력해주세요.');
+        if(agree === `예`){
+            while(true){
+            inputId = prompt(`새로운 아이디를 입력해주세요`);
+            inputPassword = prompt(`새로운 비밀번호를 입력해주세요.`);
+            inputUsername =  prompt(`이름을 입력해주세요.`);
+
+            userInfo.userList.push({
+                account: inputId,
+                password: inputPassword,
+                username: inputUsername
+            });
+            alert(`회원가입이 완료되었습니다. id:${inputId}`);
+            count++;
+            continue;
+        }else{
+            continue;
+        }
+
     }
     break;
 }
