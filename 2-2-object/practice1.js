@@ -42,55 +42,61 @@ let inputPassword;
 let accountIndex;
 let inputUsername;
 let count = 0;
+let userData = userInfo.userList
 
-let idx=[];
+let idx = [];
 
+for (let i = 0; i < userData.length; i++) { // 기존에 저장된 계정정보를 idx 배열에 로드하여 최종 인덱스를 n에 저장
 
+    idx.push(userData[i].account);
+}
 
+while (true) {
 
-
-while(true){
-    if(count>0) {
-        for (let n of userInfo.userList) {
-
-            idx.push(n.account);
-        }
-        count=0;
+    if (count > 0) {// 회원가입을 하면 추가된 id를 idx 배열에 추가, 가입안하면 작동x
+        idx.push(userData[userData.length - 1].account);
+        count = 0;
     }
     inputId = prompt(`아이디를 입력해주세요`);
-    if( idx.includes(inputId) ){
+    if (idx.includes(inputId)) {
         accountIndex = idx.indexOf(inputId);
-        while(true) { //아이디는 일치 비밀번호 확인시작
-        inputPassword = prompt(`비밀번호를 입력해주세요`);
-            if (inputPassword === userInfo.userList[accountIndex].password) {
-                alert(`${userInfo.userList[accountIndex].username} 님 안녕하세요! `);
+        while (true) { //아이디는 일치 비밀번호 확인시작
+            inputPassword = prompt(`비밀번호를 입력해주세요`);
+            if (inputPassword === userData[accountIndex].password) {
+                alert(`${userData[accountIndex].username} 님 안녕하세요! `);
                 break;
             } else {
                 alert(`비밀번호가 틀렸습니다. 다시 입력해주세요`);
             }
         }
-    }else{
-        let agree = prompt('존재하지 않는 아이디입니다. 회원가입하시려면 예 를 입력해주세요.');
-        if(agree === `예`){
-            while(true){
-            inputId = prompt(`새로운 아이디를 입력해주세요`);
-            inputPassword = prompt(`새로운 비밀번호를 입력해주세요.`);
-            inputUsername =  prompt(`이름을 입력해주세요.`);
+        break;
 
-            userInfo.userList.push({
-                account: inputId,
-                password: inputPassword,
-                username: inputUsername
-            });
-            alert(`회원가입이 완료되었습니다. id:${inputId}`);
-            count++;
-            continue;
-        }else{
-            continue;
+    } else {
+        let agree = prompt('존재하지 않는 아이디입니다. 회원가입하시려면 예 를 입력해주세요.\n 다른걸 입력하거나 취소를 누르면 로그인 화면으로 돌아갑니다.');
+        if (agree === `예`) {
+            while (true) {
+                inputId = prompt(`새로운 아이디를 입력해주세요`);
+                if(idx.includes(inputId)) {// 중복 아이디 검사
+                    alert(`${inputId} 는 이미 존재하는 아이디 입니다. 다른 아이디를 입력해주세요`);
+                    continue;
+                }else {
+                    inputPassword = prompt(`비밀번호를 입력해주세요.`);
+                    inputUsername = prompt(`이름을 입력해주세요.`);
+
+                    userData.push({
+                        account: inputId,
+                        password: inputPassword,
+                        username: inputUsername
+                    });
+                    alert(`회원가입이 완료되었습니다. id:${inputId}`);
+                    count++; // 회원가입시 계정 리스트에 추가를 발동시키기 위한 변수
+                }
+            break;
+            }
+        } else {
+            alert(`로그인 화면으로 돌아갑니다.`)
         }
-
     }
-    break;
 }
 
 
