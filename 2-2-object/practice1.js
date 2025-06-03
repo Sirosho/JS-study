@@ -61,20 +61,29 @@ while (true) {
         idx.push(userData[userData.length - 1].account);
         count = 0;
     }
-    inputId = prompt(`아이디를 입력해주세요 0을 입력하면 종료합니다.`);
-
-    if (idx.includes(inputId) && userData[idx.indexOf(inputId)].blockCount > 0){
+    inputId = prompt(`아이디를 입력해주세요.`);
+    if(inputId===null){
+        break;
+    }
+    if (idx.includes(inputId) && !blockId.includes(inputId)){
         accountIndex = idx.indexOf(inputId)
         while (true) { //아이디는 일치 비밀번호 확인시작
-            inputPassword = prompt(`비밀번호를 입력해주세요`);
+
+            if(userData[accountIndex].blockCount === 5) {
+                inputPassword = prompt(`비밀번호를 입력해주세요`);
+            }else{
+                inputPassword = prompt(`비밀번호를 입력해주세요 남은 횟수: ${userData[accountIndex].blockCount+1}`);
+            }
             if (inputPassword === userData[accountIndex].password) {
                 alert(`${userData[accountIndex].username} 님 안녕하세요! `);
                 userData[accountIndex].blockCount = 5; // 비밀번호 오류 카운트 초기화
                 break;
-            } else if (userData[accountIndex].blockCount > 0) {
+            } else if(inputPassword === null){// 취소버튼 누를시 로그인화면으로 돌아가기
+                break;
 
-                alert(`비밀번호가 틀렸습니다. 다시 입력해주세요 \n 지금부터 5회이상 틀리면 아이디가 잠금상태가 됩니다.\n남은횟수: ${userData[accountIndex].blockCount}`);
-                userData[accountIndex].blockCount--; //남은횟수 감소
+            }else if (userData[accountIndex].blockCount > 0) {
+                userData[accountIndex].blockCount--;//남은횟수 감소
+                alert(`비밀번호가 틀렸습니다. 다시 입력해주세요 \n 지금부터 ${userData[accountIndex].blockCount+1}회이상 틀리면 아이디가 잠금상태가 됩니다.`);
             } else if (userData[accountIndex].blockCount === 0) {
                 alert(`비밀번호를 5회 이상 틀리셨습니다. 아이디가 잠금설정됩니다.`);
                 blockId.push(userData[accountIndex].account);
@@ -94,18 +103,25 @@ while (true) {
                 if (idx.includes(inputId)) {// 중복 아이디 검사
                     alert(`${inputId} 는 이미 존재하는 아이디 입니다. 다른 아이디를 입력해주세요`);
                     continue;
+                }else if(inputId === null){ //prompt 취소버튼 누르면 로그인화면
+                    alert(`로그인 화면으로 돌아갑니다`);
+                    break;
                 } else {
                     inputPassword = prompt(`비밀번호를 입력해주세요.`);
                     inputUsername = prompt(`이름을 입력해주세요.`);
-
-                    userData.push({
-                        account: inputId,
-                        password: inputPassword,
-                        username: inputUsername,
-                        blockCount: 5
-                    });
-                    alert(`회원가입이 완료되었습니다. id:${inputId}`);
-                    count++; // 회원가입시 계정 리스트에 추가를 발동시키기 위한 변수
+                        if(inputPassword === null || inputUsername === null){ //prompt 취소버튼 누르면 로그인화면
+                            alert(`로그인 화면으로 돌아갑니다`);
+                            break;
+                        }else {
+                            userData.push({
+                                account: inputId,
+                                password: inputPassword,
+                                username: inputUsername,
+                                blockCount: 5
+                            });
+                            alert(`회원가입이 완료되었습니다. id:${inputId}`);
+                            count++; // 회원가입시 계정 리스트에 추가를 발동시키기 위한 변수
+                        }
                 }
                 break;
             }
