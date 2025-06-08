@@ -140,20 +140,34 @@ console.log(`result2: ${result2}`); // 예상 결과: "짝짝짝짝짝"
 
 
 
-let string =`banana`;
+function countChar(str,check){
 
-console.log(string.indexOf(`a`));
-
-console.log('=============================');
-
-console.log(string);
-console.log(string.indexOf(`a`));
-
-
-
-
+    let count=0;
+    for (let i = 0; i < str.length; i++) {
+        if(str[i]===check){
+            count++;
+        }
+    }
+    return count;
+}
 
 
+// 문자열도 배열처럼 동작한다.
+
+
+
+// 함수 호출 코드
+let result12 = countChar("banana", "a");
+console.log(`result12: ${result12}`); // 예상 결과: 3
+
+let result13 = countChar("apple", "p");
+console.log(`result13: ${result13}`); // 예상 결과: 2
+
+let result14 = countChar("javascript is fun", "s");
+console.log(`result14: ${result14}`); // 예상 결과: 2
+
+let result15 = countChar("Hello World", "o");
+console.log(`result15: ${result15}`); // 예상 결과: 2
 
 
 

@@ -1,8 +1,8 @@
 
 // 다중 파라미터
 
-function add(n1,n2) {
-    return n1 + n2;
+function add(n1,n2,n3) {
+    return n1 + n2+n3;
 }
 
 //대상에 커서를 두고 컨트롤 알트 v 하면 대상을 담을 변수를 생성
