@@ -46,12 +46,52 @@ const productList = [
     },
 ];
 
-
-function filter(callback){
-
+function filter(userArray,callback){
+    const filteredArray = [];
     for (const user of userArray) {
-        if (callback(user)) {
-
-        }
+         if (callback(user)) {
+          filteredArray.push(user);
+         }
     }
+    return filteredArray;
 }
+
+function map(userArray,callback){
+    const mappedArray = [];
+    for (const user of userArray) {
+        mappedArray.push(callback(user));
+    }
+    return mappedArray;
+}
+
+const result = filter(productList ,user=>user.stock ===0);
+
+const result2 = map(result,user=>user.name);
+
+console.log(result2);
+
+
+console.log('=============================');
+
+
+const result3 = filter(productList,user=>user.category==='전자기기' && user.price >=50000);
+
+const result4 = map(result3,function (user){
+    return {name: user.name, price: user.price}
+});
+
+console.log(result4)
+
+const result5 = filter(productList,user=>user.tags.includes("할인"));
+const result6 = map(result5,function (user){return {NAME: user.name}});
+console.log(result6);
+
+
+
+
+
+
+
+
+
+
