@@ -73,32 +73,59 @@ const traders = [
     },
 ];
 
-const totalDaejeonMoney= traders.filter(user => user.year ===2023 && user.trader.city===`대전`)
-    .map(user=>user.value).reduce((a, b) => a + b);
+const totalDaejeonMoney = traders.filter(user => user.year === 2023 && user.trader.city === `대전`)
+    .map(user => user.value).reduce((a, b) => a + b);
 
 console.log(totalDaejeonMoney);
-
 
 
 // 거래자 정보와 거래액을 쭉 뽑음
 // 오름차순 해서 인덱스 0번 출력
 
 
-
 const mostValueUser = [...traders]
 
-mostValueUser.sort((a,b)=>b.value-a.value);
+mostValueUser.sort((a, b) => b.value - a.value);
 console.log(mostValueUser[0]);
 console.log('=============================');
 
 
-const cityOfValue = {};
+// 우선 지역 : 거래액 순으로 다 뽑아보자.
 
-const dae = traders.filter(user=>user.trader.city === '대전');
 
-console.log(dae);
+let cityAndValue = traders.map(user => {
+    return {
+        city: user.trader.city,
+        value: user.value
+    };
+});
 
-const total = dae.reduce((a, b) => a+b.value,0);
+console.log(cityAndValue);
+
+const filteredSeoul = cityAndValue.filter(user => user.city === '서울');
+
+const seoulValue = {
+    [filteredSeoul[1].city]: filteredSeoul[0].value + filteredSeoul[1].value
+};
+
+
+console.log(seoulValue);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
