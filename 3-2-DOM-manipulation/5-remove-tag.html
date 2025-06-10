@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+</head>
+<body>
+
+  <ul id="fruits">
+    <li>사과</li>
+    <li>바나나</li>
+    <li>포도</li>
+  </ul>
+
+  <script>
+    const[$apple, $banana, $grape] = [...document.querySelectorAll('#fruits li')];
+
+    // 바나나를 지우고 싶다.
+
+    $banana.remove();
+    // 사과 li태그를 제거하고 그자리에 input태그로 갈아끼워넣고 싶다.
+
+    const $newinput = document.createElement('input');
+
+    //              들어올자식  바뀔자식
+    $ul.replaceChild($newinput,$apple) // 부모한테 지시
+
+    $apple.replaceWith($newinput); // 바뀔놈한테 직접 지시
+
+    // 전체 삭제
+    $ul.innerHTML= ``;
+
+  </script>
+</body>
+</html>
