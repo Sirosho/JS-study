@@ -22,3 +22,8 @@ const newPerson={
 };
 
 console.log(newPerson);
+
+
+const test = [...person];
+
+console.log(test);

@@ -115,10 +115,51 @@ console.log(seoulValue);
 
 
 
+// ===================================================================================
 
 
 
+// 결과 그룹핑 객체
+/*
 
+3번문제 해설
+
+const totalByCity = {};
+
+for (const trs of traders) {
+  const city = trs.trader.city;
+
+  // 처음 등장한 도시인가?
+  if (totalByCity[city] === undefined) {
+    // 도시를 key로 거래액을 value로 새 프로퍼티 추가
+    totalByCity[city] = trs.value;
+  } else { // 이미 한번 이상 저장된 도시
+    totalByCity[city] += trs.value;
+  }
+}
+
+console.log(totalByCity);
+*/
+
+/*const totalByCity = traders.reduce((cityObj, trs) => {
+  const city = trs.trader.city;
+  if (cityObj[city] === undefined) {
+    cityObj[city] = trs.value;
+  } else {
+    cityObj[city] += trs.value;
+  }
+  return cityObj;
+}, {});*/
+/*
+
+const totalByCity = traders.reduce((cityObj, trs) => {
+    const city = trs.trader.city;
+    cityObj[city] = (cityObj[city] || 0) + trs.value;
+    return cityObj;
+}, {});
+
+console.log(totalByCity);
+*/
 
 
 

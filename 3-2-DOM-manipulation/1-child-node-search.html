@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+</head>
+<body>
+    <ul id="fruits">
+        <li class="fr">사과</li>
+        <li class="fr">바나나</li>
+        <li class="fr">포도</li>
+    </ul>
+    <script>
+        //childnodes 는 공백까지도 카운트 한다.
+      const $ul = document.getElementById(`fruits`);
+      const $listItems = [...$ul.children]; //이렇게 ul의 자식들인 li들을 가져올수있다
+        const $firstLi = $ul.firstElementChild;// 첫번째 자식
+        const $lastLi = $ul.lastElementChild;// 첫번째 자식
+
+        $firstLi.style.fontSize = `2rem`;
+        $lastLi.style.color = `violet`;
+    </script>
+
+</body>
+</html>

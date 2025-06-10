@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+</head>
+<body>
+    <div id="wrap">
+        <ul id="list1">
+            <li>리스트1</li>
+            <li>리스트2</li>
+            <li>리스트3</li>
+            <li>리스트4</li>
+            <li>리스트5</li>
+            <li>리스트6</li>
+            <li>리스트7</li>
+        </ul>
+    </div>
+
+    <script>
+
+        const $list1 = [...document.querySelectorAll(`#list1 li`)];
+
+        for (let i = 0; i < $list1.length; i += 2) {
+            $list1[i].style.background = `yellow`;
+        }
+        for (let i = 1; i < $list1.length; i += 2) {
+            $list1[i].style.background = `gray`;
+        }
+        $list1[0].style.color = `red`;
+        $list1[$list1.length - 1].style.color = `green`;
+        $list1[1].style.fontStyle = `italic`;
+        for (let i = 0; i < 2; i++) {
+            $list1[i].style.border = `2px dotted aqua`;
+        }
+        for (let i = 2; i < $list1.length; i++) {
+            $list1[i].style.border = `2px dashed violet`;
+        }
+
+
+    </script>
+</body>
+</html>

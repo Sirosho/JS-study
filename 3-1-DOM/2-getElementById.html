@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+    <style>
+        #peach{
+            color: tomato;
+        }
+    </style>
+
+</head>
+<body>
+
+  <ul>
+    <li id="apple">사과</li>
+    <li id="banana">바나나</li>
+    <li id="grape">포도</li>
+    <li id="peach" style="font-size: 1.5em">복숭아</li>
+<!--      js에서 적용하는 style은 인라인 -->
+  </ul>
+
+  <script>
+      //태그가 붙어있는 변수들은 $ 나 뒤에 element를 붙여서 구분
+    let $banana = document.getElementById(`banana`); //변수의 해당 태그를 객체하나로 리턴
+    console.log(typeof $banana);
+    console.log($banana);
+    console.log($banana.tagName);
+    console.log($banana.className);
+    console.log($banana.id);
+    console.log($banana.textContent);
+
+    $banana.textContent = '뽀너너';
+    $banana.apple = '사과';
+    delete $banana.apple;
+
+    let $peach = document.getElementById(`peach`);
+      console.log($peach.tagName);
+
+  </script>
+
+</body>
+</html>
