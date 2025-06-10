@@ -39,6 +39,7 @@
     console.log($greet.firstElementChild);
     console.log($greet.textContent); //공백을 제거하고싶으면 .trim() 함수를 쓰면 됨
     console.log($greet.innerText);
+
     //순수하게 텍스트를 조작 안에있는 인라인 태그들이 사라질수 있음 주의
     $greet.textContent = `안녕`;
 
@@ -65,6 +66,8 @@
 
     // 자식 태그 전체 삭제
     $foodList.innerHTML = ``;
+
+    console.log($foodList.innerHTML);
 
     </script>
 
