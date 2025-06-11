@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+</head>
+<body>
+
+  <div>
+    <button id="b1">클릭1</button>
+  </div>
+  <div>
+    <button id="b2">클릭2</button>
+  </div>
+  <div>
+    <button id="b3">클릭3</button>
+  </div>
+
+  <script>
+    const [$b1,$b2,$b3] = [...document.querySelectorAll(`button`)];
+    // 이벤트 핸들러
+    function sayHelloHandler(){
+      alert(`Hello!`);
+    }
+    // 이벤트 핸들러 바인딩
+    // $b1.onclick= sayHelloHandler; 함수를 변수에 할당 $b1.onclick= sayHelloHandler(); 함수의 return값을 변수에 할당 헷갈리면안됨
+    $b1.onclick= sayHelloHandler;
+
+    $b2.ondblclick= function(){
+        $b2.style.width = `150px`;
+    };
+
+    $b3.onmouseover= () => {
+        $b3.style.background = `red`;
+    };
+    $b3.onmouseout= () => {
+        $b3.style.background = `yellow`;
+    };
+
+
+    // 프로퍼티 바인딩의 단점:
+    // 같은 종류타임의 이벤트에 다른 핸들러를 바인딩 할 수 없음
+    // ex) onmouseover에 다른 효과 함수를 또 쓰면 그 함수로 덮어씌워지고 기존함수는 적용 X
+
+    // 프로퍼티 바인딩에서 지우려면
+
+    $b3.onmouseout= null; // 하면됨
+
+
+
+  </script>
+
+</body>
+</html>

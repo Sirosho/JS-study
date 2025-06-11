@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+</head>
+<body>
+<button id="btn">버튼입니다</button>
+
+    <script>
+        //btn.style.color = `red`; // 이렇게도 되긴하는데 쓰지말아라
+
+        const $btn = document.getElementById('btn');
+
+        const helloHandler = () => {
+                alert("앙영하긔");
+        }
+                                //여기선 onclick이 아니고 그냥 click dblclick 이런식이다
+            $btn.addEventListener(`click`, helloHandler);
+        $btn.addEventListener(`click`,() =>{
+                $btn.style.background = `aqua`;
+            }); // 이방식은 지우려면 화살표에 ctrl alt v 해서 이름지어주고 없앰
+
+
+
+            // 이벤트 제거 (단, 핸들러의 이름이 기명(선언식) 이어야함)
+            $btn.removeEventListener(`click`, helloHandler);
+
+
+    </script>
+</body>
+</html>
