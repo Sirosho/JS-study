@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+</head>
+<body>
+
+    <input type="text" id="txt">
+    <p class="show">123</p>
+
+    <script>
+
+
+        //이벤트의 정보를 알려줌 어떤걸 클릭했는지 등등
+        document.addEventListener(`click`, (event) => {
+            if (e.shiftKey) {
+                $msg.textContent = `x: ${e.x}, y: ${e.y}`;
+            } else {
+                $msg.textContent = '';
+            }
+        });
+
+        const $input = document.getElementById(`txt`);
+
+        $input.addEventListener('keyup', (e) => {
+            if (e.key === `Enter`) {
+                // 입력값, 쉬프트키 ESC 뭘 눌렀는지 어케앎? event 파라미터
+                e.target.value = '';
+            }
+            document.querySelector(`.show`).textContent = e.target.value;
+        })
+
+
+    </script>
+</body>
+</html>
