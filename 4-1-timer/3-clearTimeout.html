@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+</head>
+<body>
+  <button id="start">시작</button>
+  <button id="cancel">취소</button>
+  <p class="msg"></p>
+
+  <script>
+    const $start = document.getElementById(`start`);
+    const $cancel = document.getElementById(`cancel`);
+    const $msg = document.querySelector(`.msg`);
+
+    let timeout = null;
+            $start.addEventListener("click",  (event) => {
+              //버튼 잠그기
+              $start.disabled = true; // 버튼 태그의 disabled 속성 조절 버튼 활성화 비활성화
+      $msg.textContent = `2초만 기다리세요!`;
+      timeout = setTimeout(() => {//setTimeout ID를 return clearTimeout에 쓰인다. 작성방법유의 변수선언은 밖에서 해줘야함
+        $msg.textContent = `안뇽하세요!!`;
+        $start.disabled = false;
+      },2000);
+    });
+
+    $cancel.addEventListener("click", (event) => {
+      clearTimeout(timeout);// setTimeout 취소 함수
+      $msg.textContent = `취소되었습니다`;
+      setTimeout(() =>{
+        $msg.textContent = ``;
+      },2000);
+      $start.disabled = false;
+    });
+
+
+
+
+  </script>
+</body>
+</html>

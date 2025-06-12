@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스탑워치</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .stopwatch {
+            font-size: 2rem;
+            margin: 20px;
+        }
+
+        .buttons, .log-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.4s;
+        }
+        button:not(:disabled):hover {
+            background-color:#FF9913 ;
+            color: white;
+            border-color:  white;
+        }
+
+        button[disabled] {
+            cursor: not-allowed;
+        }
+
+
+        .log-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .log-entry {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .log-container .log {
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .log-container .log:hover {
+            color: #FF9913;
+
+        }
+
+        .HOS{
+            /*border: 1px solid red;*/
+            width: 480px;
+            height: 470px;
+            background-image:url("https://media1.tenor.com/m/CM_raVSMlE8AAAAC/%EC%8B%9C%EA%B3%B5%EC%9D%98%ED%9E%88%EC%98%A4%EC%8A%A4.gif");
+            border-radius: 50%;
+            overflow:  hidden;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            right: 530px;
+            z-index: -1;
+            opacity: 0;
+            transition: 3s;
+
+        }
+        #pacman circle {
+            stroke: yellow;
+            stroke-width: 50%;
+            fill: none;
+            animation: chomp 0.15s linear infinite alternate;
+            width: 10px;
+            height: 10px;
+        }
+
+        @keyframes chomp {
+            from {
+                stroke-dasharray: 157,100;
+                stroke-dashoffset: 0;
+            }
+            to {
+                stroke-dasharray: 126,100;
+                stroke-dashoffset: -15;
+            }
+        }
+        #pacman{
+            width: 20px;
+            position: absolute;
+            transform:translate(-30%, -70%);
+
+            z-index: 3;
+            transition: 2s;
+
+
+        }
+
+
+
+    </style>
+</head>
+<body id="body">
+
+    <h1>스탑워치</h1>
+    <div class="stopwatch" id="display">00:00:00</div>
+    <div class="buttons">
+        <button id="start">시작</button>
+        <button id="pause" disabled>일시정지</button>
+        <button id="reset">초기화</button>
+    </div>
+    <div class="log-container" id="logContainer">
+        <h2>일시정지 로그</h2>
+    </div>
+    <div class="HOS">
+
+    </div>
+    <svg id="pacman" viewbox="0 0 100 100">
+        <circle cx="50%" cy="50%" r="25%">
+        </circle>
+    </svg>
+
+
+    <script>
+
+        //===================== 변수 선언============================//
+        const $start = document.getElementById('start');
+        const $stop = document.getElementById('stop');
+        const $pause = document.getElementById('pause');
+        const $reset = document.getElementById('reset');
+        // let startTime = new Date()
+        const $display = document.getElementById('display');
+        const $log = document.getElementById('logContainer');
+        let intervalId = null;
+        let elapsedTime = 0; //여기에 10밀리세컨 인터벌로 설정후 인터벌당 10씩 저장하면 그게 누적시간
+        const $timeLog =  document.querySelector('.log');
+        const $HOS =  document.querySelector('.HOS');
+        const $pacman = document.getElementById('pacman');
+        const $body = document.getElementById('body');
+
+        // 경과 시간을 포맷팅 (분:초:밀리초)하는 함수
+        function formatElapsedTime() {
+            // 경과시간을 00분 00초 00밀리초 형태로 변환
+            const minutes = String(Math.floor(elapsedTime / 60000)).padStart(2, "0");// 2자리로 맞춰주고 모자라면 앞에 0, 문자열에만 사용가능
+            const seconds = String(Math.floor((elapsedTime % 60000) / 1000)).padStart(2, "0");
+            const millisecond = String(Math.floor((elapsedTime % 1000) / 10)).padStart(2, '0');
+
+            // 지속적인 경과시간을 화면에 렌더링
+            $display.textContent = `${minutes}:${seconds}:${millisecond}`;
+        }
+
+        function sigaenunwatch() {
+            intervalId = setInterval(() => {
+                elapsedTime += 10;
+                formatElapsedTime();
+                $pause.disabled = false;
+                $pause.textContent = '일시정지';
+                $start.disabled = true;
+                if($display.textContent ===`00:10:00`){
+                    $HOS.style.opacity = `1`;
+                }
+
+            }, 10)
+        }
+
+        $start.addEventListener('click', (e) => {
+            sigaenunwatch();
+        });
+
+        $pause.addEventListener('click', (e) => {
+            if ($pause.textContent === `재개`) {
+                sigaenunwatch();
+
+            } else {
+
+                $log.innerHTML += `<div class="log">${$display.textContent}</div>`
+                clearInterval(intervalId);
+                $pause.textContent = '재개';
+            }
+
+        })
+
+        $reset.addEventListener('click', (e) => {
+            $log.innerHTML = `<h2>일시정지 로그</h2>`;
+            $start.disabled = false;
+            $pause.disabled = true;
+            $display.textContent = `00:00:00`;
+            elapsedTime = 0;
+            $pause.textContent = `재개`;
+
+        });
+
+        $log.addEventListener('click', (e) => {
+            if (e.target.classList.contains('log')) e.target.remove();
+
+        })
+        $body.addEventListener('click', (e) => {
+            $pacman.style.top = e.clientY + `px`;
+            $pacman.style.left = e.clientX + 'px';
+            if(e.target.classList.contains('log')) {
+                $pacman.style.left = e.clientX+50 + 'px'
+            }
+
+        })
+
+
+
+
+
+
+    </script>
+
+</body>
+</html>

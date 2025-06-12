@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        #slider {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        #slider img {
+            max-width: 400px;
+            max-height: 300px;
+            display: block;
+            object-fit: cover;
+            transition: 0.5s;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        button:focus {
+            outline: none;
+        }
+
+        #thumbnails {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .thumbnail {
+            width: 100px;
+            height: 75px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .thumbnail:hover {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="slider">
+        <button id="prev">이전</button>
+        <img alt="" id="image" src="https://blog.kakaocdn.net/dn/dN4uhe/btr8xWDwbrK/5YjBrelhtJwU2BAcLtEVoK/img.jpg"
+             style="width: 400px; height: auto;">
+        <button id="next">다음</button>
+    </div>
+
+    <!-- 모든 이미지의 썸네일을 슬라이더 하단에 배치 -->
+    <div id="thumbnails">
+
+    </div>
+
+    <script>
+
+
+        // 버튼과 이미지 경로를 저장할 배열
+        // $image : 인라인 이미지태그
+        const [$prevBtn, $image, $nextBtn] = [...document.querySelector('#slider').children];
+
+        // 이미지 추가는 여기에 하면 됨
+        const images = [
+            'https://blog.kakaocdn.net/dn/dN4uhe/btr8xWDwbrK/5YjBrelhtJwU2BAcLtEVoK/img.jpg',
+            "https://www.sisajournal.com/news/photo/202108/222572_131065_5150.jpg",
+            'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D',
+            'https://img.wowtv.co.kr/wowtv_news/dnrs/20200922/B20200922173834073.jpg',
+            `https://flexible.img.hani.co.kr/flexible/normal/970/546/imgdb/original/2022/0210/20220210504264.jpg`,
+            `https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000089/89706/89706237591_727.jpg`,
+            `https://img.cgv.co.kr/Movie/Thumbnail/StillCut/000060/60505/60505237486_727.jpg`
+        ];
+
+        let currentIndex = images.indexOf($image.getAttribute('src')); //현재 이미지의 배열 인덱스
+        let intervalId = null;
+        let timeoutId = null;
+
+        // 일단 인터벌로 사진을 오름차순으로 돌림
+        // 버튼 누르면 인터벌이 멈췄다가(intervalId = null) 3초 후에 다시 돌아가기 시작(!intervalId = null)
+
+
+        //이미지 자동순환
+        function rotationImage() {
+            intervalId = setInterval(() => {
+                updateImage((currentIndex + 1) % images.length);
+                console.log(currentIndex);
+            }, 1500);
+
+        }
+
+        function updateImage(index) {//이미지 순환로직
+           //fadeout 효과 적용
+            $image.style.opacity = `0`;
+            setTimeout(() => {
+            currentIndex = index;
+            $image.setAttribute('src', images[currentIndex]);
+                $image.style.opacity = `100`;
+        },500);
+        }
+
+
+        rotationImage();
+
+        $nextBtn.addEventListener('click', (e) => {
+
+            updateImage((currentIndex + 1) % images.length);
+            clearInterval(intervalId);
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            timeoutId = setTimeout((e) => rotationImage(), 2000);
+
+        })
+
+        $prevBtn.addEventListener('click', (e) => {
+
+            updateImage((currentIndex - 1 + images.length) % images.length);
+            clearInterval(intervalId);
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            timeoutId = setTimeout((e) => rotationImage(), 2000);
+
+
+        })
+        //썸네일 이미지 생성
+        const $thumbnails = document.querySelector('#thumbnails');
+
+        images.forEach(() => { //썸네일을 담을 div에 자식 img 이미지 수만큼 만들기
+            $thumbnails.innerHTML += '<img alt="" src="#">';
+        })
+
+        const $thuImg = [...$thumbnails.children];
+        //썸네일 이미지를 메인 이미지와 동기화 및 이벤트추가
+        $thuImg.forEach((image, index) => {
+            image.setAttribute('src', images[index]);
+            image.classList.add('thumbnail'); // thumbnail 클래스 추가하여 css 반영
+            image.addEventListener('click', (e) => {
+                $image.setAttribute('src', images[index]);
+
+                clearInterval(intervalId);
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+                timeoutId = setTimeout((e) => rotationImage(), 2000);
+
+            })
+        })
+
+
+    </script>
+</body>
+</html>
