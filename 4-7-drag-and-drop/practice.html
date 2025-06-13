@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>드래그로 아이템 옮기기</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .box {
+            width: 250px;
+            min-height: 300px;
+            margin: 0 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .left {
+            background: #e3f2fd;
+            border: 2px solid #2196f3;
+        }
+
+        .right {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+        }
+
+        .item {
+            background: #ffffff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: grab;
+            transition: 0.2s ease;
+        }
+
+        .item.dragging {
+            opacity: 0.5;
+            transform: scale(0.96);
+        }
+
+        .box.over {
+            outline: 3px dashed #ff9800;
+            background-color: #fffbe7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box left" id="leftBox">
+        <div class="item" draggable="true">🍎 사과</div>
+        <div class="item" draggable="true">🍌 바나나</div>
+        <div class="item" draggable="true">🍇 포도</div>
+    </div>
+
+    <div class="box right" id="rightBox">
+        <div class="item" draggable="true">🍞 빵</div>
+        <div class="item" draggable="true">🥛 우유</div>
+    </div>
+
+    <script>
+
+
+
+    </script>
+
+</body>
+</html>
