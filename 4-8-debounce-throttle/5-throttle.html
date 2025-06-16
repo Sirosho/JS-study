@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+    <style>
+        body {
+            height: 2000px;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #333;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">스크롤 이벤트 최적화 예제</div>
+
+    <script>
+        // 스크롤 할때마다 이벤트 발생하는 상황에서는 성능적으로 좋지않다.
+
+        //스로틀 함수 정의 (보통 무한 스크롤만들때 많이 쓰임)
+
+        function throttle (callback) {
+            let timerId = null; // 현재 스로틀이 쿨타임중인지 아닌지 상태를 기억하는 비공개변수
+            return (...arg)=>{
+                // 쿨타임이 아닐 때만
+                if(!timerId){
+                    // 스로틀 쿨타임 시작
+                    timerId = setTimeout(() => {
+                        callback(...arg); // 1000ms 딜레이 후에 실행
+                        timerId = null;
+                    },1000);
+                }
+            };
+        }
+
+        function scrollHandler(e){
+            console.log(`스크롤이벤트 발생: ${window.scrollY}`);
+        }
+
+        // 스크롤 이벤트 핸들러 바인딩
+        window.addEventListener('scroll', scrollHandler);
+
+        throttle(scrollHandler);
+
+    </script>
+</body>
+</html>
