@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+    <style>
+        .counter {
+            width: 40%;
+            margin: 50px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="counter">
+        <h1>초콜릿 개수</h1>
+        <h2 class="count1">0</h2>
+        <button id="decrease1"> -</button>
+        <button id="increase1"> +</button>
+    </div>
+
+    <div class="counter">
+        <h1>치즈 개수</h1>
+        <h2 class="count2">0</h2>
+        <button id="decrease2"> -</button>
+        <button id="increase2"> +</button>
+    </div>
+
+    <script>
+            // =======================변수선언===========================
+        const $count1 = document.querySelector('.count1');
+        const $count2 = document.querySelector('.count2');
+        const $increase1 = document.getElementById('increase1');
+        const $decrease1 = document.getElementById('decrease1');
+        const $decrease2 = document.getElementById('decrease2');
+        const $increase2 = document.getElementById('increase2');
+
+        // =========================함수선언==============================
+        function countClosure(){
+            let count = 0;
+            function increaseCount(){
+                return ++count;
+            }
+            function decreaseCount(){
+                return --count;
+            }
+
+            return {increaseCount,decreaseCount};
+        }
+
+        const {increaseCount,decreaseCount} = countClosure();
+
+        $increase1.addEventListener(`click` ,(e) =>{
+            $count1.textContent = increaseCount();
+        });
+        $decrease1.addEventListener(`click` ,(e) =>{
+            $count1.textContent = decreaseCount();
+        });
+
+            $increase2.addEventListener(`click` ,(e) =>{
+            $count2.textContent = increaseCount();
+        });
+
+            $decrease2.addEventListener(`click` ,(e) =>{
+                $count2.textContent = decreaseCount();
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+</body>
+</html>
