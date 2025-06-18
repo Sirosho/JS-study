@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Title</title>
+    <style>
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            /*border: 1px solid red;*/
+
+        }
+
+        #pokeList {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .pokemon {
+            width: 20%;
+            margin: 30px auto;
+        }
+
+        .pokemon img {
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <ul id="pokeList">
+
+        </ul>
+    </div>
+
+
+    <script>
+
+        let url = `https://pokeapi.co/api/v2/pokemon`;
+        const $pokeList = document.getElementById('pokeList');
+
+        function fetchGet(url, callback) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url); // 요청 세팅
+            xhr.send(); // 요청 보내기
+            // 응답 데이터 가져오기
+            xhr.addEventListener('load', e => {
+                const responseData = JSON.parse(xhr.responseText);
+                callback(responseData);
+            });
+        }
+
+        //url의 포켓못 이미지를 등록해주는함수
+        function addImages(url) {
+            fetchGet(url, responseData => {
+                const newUrl = [...responseData.results].map(result => result.url);
+
+                newUrl.forEach(url => {
+                    fetchGet(`${url}`, responseData2 => {
+                        const image = responseData2.sprites[`front_default`];
+                        const $li = document.createElement(`div`);
+                        $li.innerHTML = `<img alt="" src="${image}">`
+                        $li.classList.add('pokemon');
+                        $pokeList.append($li);
+
+                    })
+                })
+
+            });
+        }
+
+        //기존 url.next를 새 url로 써야함
+        // url.next가 null이 될때까지 반복
+
+
+        //함수안에서만 해야함...
+
+        fetchGet(url, responseData => {
+            addImages(url);
+            url = `${responseData.next}`;
+            console.log(url)
+            fetchGet(url, responseData => {
+                addImages(url);
+                url = `${responseData.next}`;
+                console.log(url)
+                fetchGet(url, responseData => {
+                    addImages(url);
+                    url = `${responseData.next}`;
+                    console.log(url)
+                    fetchGet(url, responseData => {
+                        addImages(url);
+                        url = `${responseData.next}`;
+     /*콜 백 지 옥*/    console.log(url);
+                    });
+                });
+            });
+        });
+
+        // 아직 배우지 않은 그걸 쓰거나, 이벤트로 걸어줘야함
+        // 반복문은 기다려주지 않음 이벤트는 사용자가 무언가 할때의 시점으로 작동해서
+        // boolean 변수로 조정이 가능함.
+
+    </script>
+</body>
+</html>
