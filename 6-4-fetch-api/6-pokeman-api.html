@@ -252,6 +252,10 @@
 
 
 
+
+
+
+
         function throttle(callback, delay) {
             let timerId = null; // 현재 스로틀이 쿨타임중인지 아닌지 상태를 기억하는 비공개변수
             return (...arg) => {
@@ -339,9 +343,6 @@
                     const res = await fetch(pokemon.url);
                     const x = await res.json();
                     const imgSrc = x.sprites.front_default;
-                    //types.type.name
-                    // 타입이 여러개인 경우도 있음;;
-
                     pokeInfo.push(
                         {image : imgSrc,
                          baseExperience : x.base_experience,
@@ -350,6 +351,9 @@
                             types : x.types
                         }
                     );
+                    //types.type.name
+                    // 타입이 여러개인 경우도 있음;;
+
                     // console.log(pokeInfo);
 
 
@@ -385,7 +389,7 @@
                     $modalTypes.innerHTML = '';
                         for (const t of pokeInfo[$card.getAttribute('data-id')].types) {
                             const $li = document.createElement(`img`)
-                            $li.src = t.type.name;
+                            $li.src =   [...typeImages].filter((e) => e.name === `${t.type.name}`)[0].url;
                             $modalTypes.append($li);
                         }
                     })
